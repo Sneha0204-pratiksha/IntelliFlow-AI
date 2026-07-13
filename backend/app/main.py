@@ -1,9 +1,16 @@
 from fastapi import FastAPI
 
+# Database
 from app.db.database import engine, Base
+
+# Models
 from app.models.user import User
+from app.models.workflow import Workflow
+
+# API Routers
 from app.api.users import router as user_router
 from app.api.auth import router as auth_router
+from app.api.workflows import router as workflow_router
 
 # Create all database tables
 Base.metadata.create_all(bind=engine)
@@ -15,9 +22,24 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Include API Routers
-app.include_router(user_router, prefix="/users", tags=["Users"])
-app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
+# Register API Routers
+app.include_router(
+    user_router,
+    prefix="/users",
+    tags=["Users"]
+)
+
+app.include_router(
+    auth_router,
+    prefix="/auth",
+    tags=["Authentication"]
+)
+
+app.include_router(
+    workflow_router,
+    prefix="/workflows",
+    tags=["Workflows"]
+)
 
 # Root Endpoint
 @app.get("/")
