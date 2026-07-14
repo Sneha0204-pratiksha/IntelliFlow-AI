@@ -12,6 +12,9 @@ from app.api.users import router as user_router
 from app.api.auth import router as auth_router
 from app.api.workflows import router as workflow_router
 
+from app.models.document import Document
+from app.api.documents import router as document_router
+
 # Create all database tables
 Base.metadata.create_all(bind=engine)
 
@@ -39,6 +42,12 @@ app.include_router(
     workflow_router,
     prefix="/workflows",
     tags=["Workflows"]
+)
+
+app.include_router(
+    document_router,
+    prefix="/documents",
+    tags=["Documents"]
 )
 
 # Root Endpoint
